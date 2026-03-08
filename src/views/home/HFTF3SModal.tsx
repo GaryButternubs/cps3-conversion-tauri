@@ -1,6 +1,6 @@
 import HomeModal from "./HomeModal";
 
-function FightCadeModal() {
+function HFTF3SModal() {
   return (
     <HomeModal linkText="A Note About 3S and HFTF" modalID="fc2-modal">
       <h3 className="font-bold text-lg">A Note About 3S and HFTF</h3>
@@ -81,11 +81,11 @@ function FightCadeModal() {
       </p>
       <p className="mt-4">
         Please keep this in mind when converting these games, whether combining
-        the ROMs for use with modding tools such as X.C.O.P.Y, or splitting the
+        the ROMs for use with modding tools such as X.C.O.P.Y., or splitting the
         ROMs for use with FightCade 2.
       </p>
     </HomeModal>
   );
 }
 
-export default FightCadeModal;
+export default HFTF3SModal;

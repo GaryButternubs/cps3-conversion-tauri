@@ -9,7 +9,7 @@ function CombinedModal() {
       <p className="pt-4">
         This is an older ROM format that saw use with FightCade 1 and older
         versions of Mame and Final Burn Alpha. It's also the ROM format used in
-        a few different modding tools such as X.C.O.P.Y or the Stardust Sound
+        a few different modding tools such as X.C.O.P.Y. or the Stardust Sound
         Patcher.
       </p>
       <p className="pt-4">

@@ -1,7 +1,7 @@
 import { NavLink } from "react-router";
 import CombinedModal from "./home/CombinedModal";
 import SplitModal from "./home/SplitModal";
-import FightCadeModal from "./home/FightCadeModal";
+import HFTF3SModal from "./home/HFTF3SModal";
 
 function Home() {
   return (
@@ -44,7 +44,7 @@ function Home() {
           </div>
         </div>
         <div className="flex justify-center items-center">
-          <FightCadeModal />
+          <HFTF3SModal />
         </div>
       </main>
     </>
