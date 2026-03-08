@@ -4,10 +4,10 @@ import { Dispatch, SetStateAction, useState } from "react";
 
 function DirectorySelect({
   setContents,
-  setOutputDir,
+  setInOutDir,
 }: {
   setContents?: Dispatch<SetStateAction<Array<DirEntry>>>;
-  setOutputDir?: Dispatch<SetStateAction<string>>;
+  setInOutDir?: Dispatch<SetStateAction<string>>;
 }) {
   const [directoryPath, setDirectoryPath] =
     useState<string>("No folder selected");
@@ -26,7 +26,7 @@ function DirectorySelect({
         setContents(entires.filter((entry) => entry.isFile));
       }
 
-      if (setOutputDir) setOutputDir(dir);
+      if (setInOutDir) setInOutDir(dir);
     }
   };
 

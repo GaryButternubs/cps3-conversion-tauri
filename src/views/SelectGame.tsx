@@ -13,6 +13,7 @@ function SelectGame() {
           <NavLink
             to={`/selectInput/${type}/${Object.keys(GameData)[index]}`}
             className="btn p-4 flex justify-self-stretch items-center"
+            key={game.bgImage}
           >
             {game.abbrTitle ?? game.title}
           </NavLink>

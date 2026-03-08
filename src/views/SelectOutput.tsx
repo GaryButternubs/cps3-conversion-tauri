@@ -37,7 +37,7 @@ function SelectOutput() {
           Any duplicate files in this directory will be overwritten.
         </p>
         <div className="mt-5 flex justify-center">
-          <DirectorySelect setOutputDir={setTempOutputDir} />
+          <DirectorySelect setInOutDir={setTempOutputDir} />
         </div>
         <div className="mt-5 flex justify-center items-center gap-2">
           <button

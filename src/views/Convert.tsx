@@ -12,17 +12,19 @@ function Convert() {
   const [text, setText] = useState<string>("");
 
   const files = useContext(ConvertContext)?.files;
+  const inputDir = useContext(ConvertContext)?.inputDir;
   const outputDir = useContext(ConvertContext)?.outputDir;
 
   const ConvertROM = async (e: MouseEvent) => {
     e.preventDefault();
 
-    if (files && outputDir) {
+    if (files && inputDir && outputDir) {
       setConverting(true);
       await convertROM(
         type ?? "",
         (game ?? "") as keyof GameList,
         files,
+        inputDir,
         outputDir,
         setProgress,
         setText,
@@ -54,9 +56,20 @@ function Convert() {
               <p className="text-success">Conversion Successful!</p>
             </>
           ) : (
-            <button className="btn" onClick={ConvertROM} disabled={converting}>
-              {converting ? "Converting..." : "Begin Conversion"}
-            </button>
+            <div className="flex justify-center items-center gap-2">
+              <button
+                className="btn"
+                onClick={ConvertROM}
+                disabled={converting}
+              >
+                {converting ? "Converting..." : "Begin Conversion"}
+              </button>
+              {!converting && (
+                <NavLink to="/" className="btn btn-secondary">
+                  Cancel
+                </NavLink>
+              )}
+            </div>
           )}
         </div>
       </main>

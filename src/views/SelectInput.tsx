@@ -10,22 +10,63 @@ import DirectorySelect from "../components/DirectorySelect";
 function SelectInput() {
   const { type, game } = useParams();
   const [contents, setContents] = useState<Array<DirEntry>>([]);
+  const [tempInDir, setTempInDir] = useState<string>("");
   const setFiles = useContext(ConvertContext)?.setFiles;
+  const setInputDir = useContext(ConvertContext)?.setInputDir;
 
   const navigate = useNavigate();
 
   const missingFiles: string[] = useMemo(() => {
-    // TO-DO: Keep track of any missing files
-    return [];
+    if (contents.length === 0) return [];
+
+    // Ensure all required files are found, otherwise prevent moving on
+    const missing: Array<string> = [];
+    const filenames: Array<string> = contents.map((file) => file.name);
+
+    if (type === "combined") {
+      const combFiles = GameData[game as keyof GameList].combinedFiles;
+
+      for (let i = 0; i < combFiles.length; i++)
+        if (!filenames.includes(combFiles[i])) missing.push(combFiles[i]);
+    } else if (type === "split") {
+      const splitFiles = GameData[game as keyof GameList].splitFiles;
+
+      for (let i = 0; i < splitFiles.length; i++) {
+        for (let j = 0; j < splitFiles[i].length; j++) {
+          if (!filenames.includes(splitFiles[i][j]))
+            missing.push(splitFiles[i][j]);
+        }
+      }
+    }
+
+    return missing;
   }, [contents, game, type]);
 
   const SelectOutputDir = (e: MouseEvent) => {
     e.preventDefault();
 
-    // TO-DO: Filter contents so that only required files are passed along
-    contents.forEach((file) => console.log(file.name));
+    if (setFiles && setInputDir) {
+      const combFiles = GameData[game as keyof GameList].combinedFiles;
+      const splitFiles = GameData[game as keyof GameList].splitFiles;
 
-    // TO-DO: Navigate to SelectOutput component
+      setFiles(
+        contents.filter((file) => {
+          if (type === "combined") {
+            return combFiles.includes(file.name);
+          } else if (type === "split") {
+            let hasFile = false;
+
+            for (let i = 0; i < splitFiles.length; i++)
+              if (splitFiles[i].includes(file.name)) hasFile = true;
+
+            return hasFile;
+          }
+        }),
+      );
+
+      setInputDir(tempInDir);
+      navigate(`/selectOutput/${type}/${game}`);
+    }
   };
 
   return (
@@ -49,7 +90,10 @@ function SelectInput() {
           no duplicates.
         </p>
         <div className="mt-5 flex justify-center">
-          <DirectorySelect setContents={setContents} />
+          <DirectorySelect
+            setContents={setContents}
+            setInOutDir={setTempInDir}
+          />
         </div>
         <div className="mt-5 flex justify-center items-center gap-2">
           <button

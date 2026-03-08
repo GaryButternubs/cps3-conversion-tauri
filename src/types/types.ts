@@ -11,6 +11,8 @@ import heritageBG from "../assets/heritage.jpg";
 export type ConvertContextType = {
   files: Array<DirEntry>;
   setFiles: Dispatch<SetStateAction<Array<DirEntry>>>;
+  inputDir: string;
+  setInputDir: Dispatch<SetStateAction<string>>;
   outputDir: string;
   setOutputDir: Dispatch<SetStateAction<string>>;
 };
