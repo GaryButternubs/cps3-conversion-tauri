@@ -1,6 +1,7 @@
 import { NavLink } from "react-router";
 import CombinedModal from "./home/CombinedModal";
 import SplitModal from "./home/SplitModal";
+import FightCadeModal from "./home/FightCadeModal";
 
 function Home() {
   return (
@@ -11,31 +12,39 @@ function Home() {
           Select one of the options below to get started.
         </h2>
       </header>
-      <main className="flex justify-between gap-8">
-        <div className="flex flex-col gap-1">
-          <div className="tooltip">
-            <div className="tooltip-content p-3">
-              ie. (10, 20, 30, etc.) to (xxx-simm1.0, xxx-simm1.1, xxx-simm1.2,
-              etc.)
+      <main className="space-y-2">
+        <div className="flex justify-between gap-8">
+          <div className="flex flex-col gap-1">
+            <div className="tooltip">
+              <div className="tooltip-content p-3">
+                ie. (10, 20, 30, etc.) to (xxx-simm1.0, xxx-simm1.1,
+                xxx-simm1.2, etc.)
+              </div>
+              <NavLink
+                to="/selectGame/combined"
+                className="btn btn-neutral p-4"
+              >
+                Convert Combined ROM to Split ROM
+              </NavLink>
             </div>
-            <NavLink to="/selectGame/combined" className="btn btn-neutral p-4">
-              Convert Combined ROM to Split ROM
-            </NavLink>
+            <CombinedModal />
           </div>
-          <CombinedModal />
-        </div>
 
-        <div className="flex flex-col gap-1">
-          <div className="tooltip">
-            <div className="tooltip-content p-3">
-              ie. (xxx-simm1.0, xxx-simm1.1, xxx-simm1.2, etc.) to (10, 20, 30,
-              etc.)
+          <div className="flex flex-col gap-1">
+            <div className="tooltip">
+              <div className="tooltip-content p-3">
+                ie. (xxx-simm1.0, xxx-simm1.1, xxx-simm1.2, etc.) to (10, 20,
+                30, etc.)
+              </div>
+              <NavLink to="/selectGame/split" className="btn btn-neutral p-4">
+                Convert Split ROM to Combined ROM
+              </NavLink>
             </div>
-            <NavLink to="/selectGame/split" className="btn btn-neutral p-4">
-              Convert Split ROM to Combined ROM
-            </NavLink>
+            <SplitModal />
           </div>
-          <SplitModal />
+        </div>
+        <div className="flex justify-center items-center">
+          <FightCadeModal />
         </div>
       </main>
     </>

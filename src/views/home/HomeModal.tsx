@@ -32,10 +32,10 @@ function HomeModal({
               <button className="btn">Close</button>
             </form>
           </div>
-          <form method="dialog" className="modal-backdrop">
-            <button>close</button>
-          </form>
         </div>
+        <form method="dialog" className="modal-backdrop">
+          <button>close</button>
+        </form>
       </dialog>
     </>
   );
