@@ -16,7 +16,7 @@ You can build the project manually as well by cloning this repo and using the fo
 npm run tauri build
 ```
 
-Swap out `npm run` as needed with whatever you're using (ie. `yarn`, `pnpm`, `deno task`, etc.)
+Swap out `npm run` as needed with whatever you're using (ie. `yarn`, `pnpm`, `deno task`, etc.). The resulting build should be located inside `/src-tauri/target/release`
 
 Doing so will require you to install Tauri as well as its dependencies. You can read more about them [here](https://tauri.app/start/prerequisites/#_top).
 
