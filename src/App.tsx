@@ -1,50 +1,24 @@
+import { DirEntry } from "@tauri-apps/plugin-fs";
 import { useState } from "react";
-import reactLogo from "./assets/react.svg";
-import { invoke } from "@tauri-apps/api/core";
-import "./App.css";
+import { ConvertContext } from "./contexts/ConvertContext";
+import DynamicBackground from "./components/DynamicBackground";
+import { RouterProvider } from "react-router";
+import router from "./routes";
 
 function App() {
-  const [greetMsg, setGreetMsg] = useState("");
-  const [name, setName] = useState("");
-
-  async function greet() {
-    // Learn more about Tauri commands at https://tauri.app/develop/calling-rust/
-    setGreetMsg(await invoke("greet", { name }));
-  }
+  const [files, setFiles] = useState<Array<DirEntry>>([]);
+  const [outputDir, setOutputDir] = useState<string>("");
 
   return (
-    <main className="container">
-      <h1>Welcome to Tauri + React</h1>
-
-      <div className="row">
-        <a href="https://vite.dev" target="_blank">
-          <img src="/vite.svg" className="logo vite" alt="Vite logo" />
-        </a>
-        <a href="https://tauri.app" target="_blank">
-          <img src="/tauri.svg" className="logo tauri" alt="Tauri logo" />
-        </a>
-        <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
-      </div>
-      <p>Click on the Tauri, Vite, and React logos to learn more.</p>
-
-      <form
-        className="row"
-        onSubmit={(e) => {
-          e.preventDefault();
-          greet();
-        }}
-      >
-        <input
-          id="greet-input"
-          onChange={(e) => setName(e.currentTarget.value)}
-          placeholder="Enter a name..."
-        />
-        <button type="submit">Greet</button>
-      </form>
-      <p>{greetMsg}</p>
-    </main>
+    <ConvertContext value={{ files, setFiles, outputDir, setOutputDir }}>
+      <DynamicBackground>
+        <div className="flex items-center justify-center w-full h-full">
+          <div className="overlfow-y-auto max-h-[90vh] bg-base-100 my-8 mx-16 p-8 rounded-xl box-border">
+            <RouterProvider router={router} />
+          </div>
+        </div>
+      </DynamicBackground>
+    </ConvertContext>
   );
 }
 
