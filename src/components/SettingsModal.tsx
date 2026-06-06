@@ -1,12 +1,6 @@
 import { ChangeEvent } from "react";
 
-function SettingsModal({
-  strokeWidth,
-  size,
-}: {
-  strokeWidth: Number;
-  size: Number;
-}) {
+function SettingsModal({ strokeWidth }: { strokeWidth: number }) {
   const UpdateConfiguration = (key: string, value: string) => {
     // TO-DO: Make call to helper that makes Tauri write API call
   };
@@ -30,7 +24,7 @@ function SettingsModal({
             viewBox="0 0 24 24"
             strokeWidth={strokeWidth as number}
             stroke="currentColor"
-            className={`size-${size}`}
+            className="size-8"
           >
             <path
               strokeLinecap="round"
