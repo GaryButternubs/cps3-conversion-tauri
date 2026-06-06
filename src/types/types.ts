@@ -8,6 +8,11 @@ import ventureBG from "../assets/venture.jpg";
 import thirdstrikeBG from "../assets/3s.jpg";
 import heritageBG from "../assets/heritage.jpg";
 
+export type ConfigContextType = {
+  defaultGame: string; // Skips need to pick game for split/combined
+  ignoreRequiredFiles: boolean; // Allow conversion even if some files missing
+};
+
 export type ConvertContextType = {
   files: Array<DirEntry>;
   setFiles: Dispatch<SetStateAction<Array<DirEntry>>>;
