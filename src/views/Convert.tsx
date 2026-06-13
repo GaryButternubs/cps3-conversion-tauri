@@ -1,4 +1,4 @@
-import { MouseEvent, useContext, useState } from "react";
+import { MouseEvent, use, useState } from "react";
 import { NavLink, useParams } from "react-router";
 import { ConvertContext } from "../contexts/ConvertContext";
 import convertROM from "../convert-helper";
@@ -11,15 +11,14 @@ function Convert() {
   const [progress, setProgress] = useState<number>(0);
   const [text, setText] = useState<string>("");
 
-  const files = useContext(ConvertContext)?.files;
-  const inputDir = useContext(ConvertContext)?.inputDir;
-  const outputDir = useContext(ConvertContext)?.outputDir;
+  const { files, inputDir, outputDir } = use(ConvertContext)!;
 
   const ConvertROM = async (e: MouseEvent) => {
     e.preventDefault();
 
     if (files && inputDir && outputDir) {
       setConverting(true);
+      console.log(files);
       await convertROM(
         type ?? "",
         (game ?? "") as keyof GameList,

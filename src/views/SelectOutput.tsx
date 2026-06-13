@@ -1,4 +1,4 @@
-import { MouseEvent, useContext, useState } from "react";
+import { MouseEvent, use, useState } from "react";
 import { NavLink, useNavigate, useParams } from "react-router";
 import { ConvertContext } from "../contexts/ConvertContext";
 import { GameData, GameList } from "../types/types";
@@ -8,7 +8,7 @@ import DirectorySelect from "../components/DirectorySelect";
 
 function SelectOutput() {
   const { type, game } = useParams();
-  const setOutputDir = useContext(ConvertContext)?.setOutputDir;
+  const setOutputDir = use(ConvertContext)?.setOutputDir;
   const [tempOutputDir, setTempOutputDir] = useState<string>("");
 
   const navigate = useNavigate();

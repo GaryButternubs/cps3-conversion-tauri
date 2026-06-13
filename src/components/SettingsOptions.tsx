@@ -16,9 +16,6 @@ function SettingsOptions({
 }) {
   const { configData, setConfig } = use(ConfigContext)!;
 
-  const selectedGame =
-    GameData[configData.defaultGame as keyof GameList] ?? null;
-
   const handleChange = async (
     e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>,
   ) => {
@@ -66,16 +63,15 @@ function SettingsOptions({
             Default game:{" "}
           </span>
         </div>
-        <select className="select" name="defaultGame" onChange={handleChange}>
-          <option value={""} selected={selectedGame === null}>
-            Default (None)
-          </option>
+        <select
+          className="select"
+          name="defaultGame"
+          onChange={handleChange}
+          defaultValue={configData.defaultGame}
+        >
+          <option value={""}>Default (None)</option>
           {Object.values(GameData).map((game: Game, index) => (
-            <option
-              value={Object.keys(GameData)[index]}
-              key={game.bgImage}
-              selected={selectedGame?.abbrTitle === game.abbrTitle}
-            >
+            <option value={Object.keys(GameData)[index]} key={game.bgImage}>
               {game.abbrTitle ?? game.title}
             </option>
           ))}

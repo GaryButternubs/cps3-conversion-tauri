@@ -1,18 +1,21 @@
 import { DirEntry } from "@tauri-apps/plugin-fs";
-import { MouseEvent, useContext, useMemo, useState } from "react";
+import { MouseEvent, use, useMemo, useState } from "react";
 import { NavLink, useNavigate, useParams } from "react-router";
 import { ConvertContext } from "../contexts/ConvertContext";
 import { GameData, GameList } from "../types/types";
 import Heading from "../components/Heading";
 import RequiredFiles from "./selectInputOutput/RequiredFiles";
 import DirectorySelect from "../components/DirectorySelect";
+import { ConfigContext } from "../contexts/ConfigContext";
 
 function SelectInput() {
   const { type, game } = useParams();
   const [contents, setContents] = useState<Array<DirEntry>>([]);
   const [tempInDir, setTempInDir] = useState<string>("");
-  const setFiles = useContext(ConvertContext)?.setFiles;
-  const setInputDir = useContext(ConvertContext)?.setInputDir;
+
+  const ignoreRequiredFiles =
+    use(ConfigContext)!.configData.ignoreRequiredFiles;
+  const { setFiles, setInputDir } = use(ConvertContext)!;
 
   const navigate = useNavigate();
 
@@ -98,7 +101,10 @@ function SelectInput() {
         <div className="mt-5 flex justify-center items-center gap-2">
           <button
             className="btn"
-            disabled={contents.length === 0 || missingFiles.length !== 0}
+            disabled={
+              contents.length === 0 ||
+              (missingFiles.length !== 0 && !ignoreRequiredFiles)
+            }
             onClick={SelectOutputDir}
           >
             Continue
@@ -110,7 +116,9 @@ function SelectInput() {
         {contents.length > 0 && missingFiles.length !== 0 && (
           <div className="flex justify-center items-center mt-2">
             <p className="text-error">
-              All required files must be found before continuing.
+              {ignoreRequiredFiles
+                ? "One or more files are missing. Proceed anyway?"
+                : "All required files must be found before continuing."}
             </p>
           </div>
         )}

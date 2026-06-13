@@ -19,26 +19,33 @@ async function convertROM(
 
     for (let i = 0; i < combFiles.length; i++) {
       if (type === "combined") {
-        setText(`Splitting ${files[i].name} file...`);
-        await split(
-          files[i],
-          inputDir,
-          splitFiles[i],
-          outputDir,
-          files[i].name === "10" || files[i].name === "20",
-        );
+        // Verify that file exists, otherwise skip
+        if (files.findIndex((file) => file.name === combFiles[i]) !== -1) {
+          setText(`Splitting ${files[i].name} file...`);
+          await split(
+            files[i],
+            inputDir,
+            splitFiles[i],
+            outputDir,
+            files[i].name === "10" || files[i].name === "20",
+          );
+        }
       } else if (type === "split") {
-        setText(`Combining ${splitFiles[i].join(", ")}...`);
         const inputFiles = files.filter((file) =>
           splitFiles[i].includes(file.name),
         );
-        await combine(
-          inputFiles,
-          inputDir,
-          combFiles[i],
-          outputDir,
-          combFiles[i] === "10" || combFiles[i] === "20",
-        );
+
+        // Verify that files exist, otherwise skip
+        if (inputFiles.length === splitFiles[i].length) {
+          setText(`Combining ${splitFiles[i].join(", ")}...`);
+          await combine(
+            inputFiles,
+            inputDir,
+            combFiles[i],
+            outputDir,
+            combFiles[i] === "10" || combFiles[i] === "20",
+          );
+        }
       }
 
       setProgress(Math.round((i + 1) * progressIncrements));
