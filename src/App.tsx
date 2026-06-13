@@ -18,7 +18,7 @@ function App() {
       <div className="flex items-center justify-center w-full h-full">
         <div className="relative overflow-y-auto overflow-x-hidden max-h-[90vh] bg-base-100 my-8 mx-16 p-8 rounded-xl box-border">
           {isLoading ? (
-            <LoadingSpinner size={8} />
+            <LoadingSpinner />
           ) : (
             <ConfigWrapper initialConfig={initialConfig!} />
           )}

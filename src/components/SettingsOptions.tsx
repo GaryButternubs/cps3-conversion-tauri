@@ -5,7 +5,6 @@ import {
   ConfigWriteStatus,
   Game,
   GameData,
-  GameList,
 } from "../types/types";
 import { WriteData } from "../config-helper";
 

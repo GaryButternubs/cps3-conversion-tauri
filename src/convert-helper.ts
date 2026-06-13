@@ -20,14 +20,15 @@ async function convertROM(
     for (let i = 0; i < combFiles.length; i++) {
       if (type === "combined") {
         // Verify that file exists, otherwise skip
-        if (files.findIndex((file) => file.name === combFiles[i]) !== -1) {
-          setText(`Splitting ${files[i].name} file...`);
+        const fileIndex = files.findIndex((file) => file.name === combFiles[i]);
+        if (fileIndex !== -1) {
+          setText(`Splitting ${files[fileIndex].name} file...`);
           await split(
-            files[i],
+            files[fileIndex],
             inputDir,
-            splitFiles[i],
+            splitFiles[fileIndex],
             outputDir,
-            files[i].name === "10" || files[i].name === "20",
+            files[fileIndex].name === "10" || files[fileIndex].name === "20",
           );
         }
       } else if (type === "split") {

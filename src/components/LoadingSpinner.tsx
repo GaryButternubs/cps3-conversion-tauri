@@ -1,4 +1,4 @@
-function LoadingSpinner({ size }: { size: number }) {
+function LoadingSpinner() {
   return <span className="loading loading-spinner loading-xl"></span>;
 }
 

@@ -18,7 +18,6 @@ function Convert() {
 
     if (files && inputDir && outputDir) {
       setConverting(true);
-      console.log(files);
       await convertROM(
         type ?? "",
         (game ?? "") as keyof GameList,
