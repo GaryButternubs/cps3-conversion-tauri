@@ -117,7 +117,13 @@ function SelectInput() {
           <div className="flex justify-center items-center mt-2">
             <p className="text-error">
               {ignoreRequiredFiles
-                ? "One or more files are missing. Proceed anyway?"
+                ? `One or more files are missing. Proceed anyway? 
+                    ${
+                      (type ?? "combined") === "split"
+                        ? "If any simms are missing they won't be combined."
+                        : ""
+                    }
+                  `
                 : "All required files must be found before continuing."}
             </p>
           </div>

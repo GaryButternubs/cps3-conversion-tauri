@@ -15,22 +15,13 @@ function SettingsOptions({
 }) {
   const { configData, setConfig } = use(ConfigContext)!;
 
-  const handleChange = async (
-    e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>,
-  ) => {
+  const handleChange = async (keyStr: string, value: string) => {
     setStatus(ConfigWriteStatus.Pending);
 
-    const key = e.target.name as keyof ConfigSettings;
-    const value = (
-      e.target.type === "checkbox" ? e.target.checked : e.target.value
-    ).toString();
+    const key = keyStr as keyof ConfigSettings;
+    const newConfig = await WriteData(key, value.toString());
 
-    await WriteData(key, value.toString());
-
-    const temp = { ...configData };
-    temp[key] = value;
-
-    setConfig(temp);
+    setConfig(newConfig);
     setStatus(ConfigWriteStatus.Saved);
   };
 
@@ -50,9 +41,44 @@ function SettingsOptions({
           className="checkbox"
           name="ignoreRequiredFiles"
           checked={configData["ignoreRequiredFiles"].toLowerCase() === "true"}
-          onChange={handleChange}
+          onChange={async (e: React.ChangeEvent<HTMLInputElement>) => {
+            const keyStr = e.target.name;
+            const value = e.target.checked;
+
+            await handleChange(keyStr, value.toString());
+
+            if (
+              !value &&
+              configData["includeUnusedFiles"].toLowerCase() === "true"
+            )
+              await handleChange("includeUnusedFiles", "false");
+          }}
         />
       </fieldset>
+      {configData["ignoreRequiredFiles"].toLowerCase() === "true" && (
+        <fieldset className="fieldset flex gap-2 items-center justify-between">
+          <div
+            className="tooltip tooltip-right"
+            data-tip="Include unused ROM files still supported by CPS3 during conversion (ie. 70, 71)."
+          >
+            <span className="label underline decoration-dotted">
+              Include unused files:{" "}
+            </span>
+          </div>
+          <input
+            type="checkbox"
+            className="checkbox"
+            name="includeUnusedFiles"
+            checked={configData["includeUnusedFiles"].toLowerCase() === "true"}
+            onChange={async (e: React.ChangeEvent<HTMLInputElement>) => {
+              const keyStr = e.target.name;
+              const value = e.target.checked;
+
+              await handleChange(keyStr, value.toString());
+            }}
+          />
+        </fieldset>
+      )}
       <fieldset className="fieldset flex gap-2 items-center justify-between">
         <div
           className="tooltip tooltip-right"
@@ -65,7 +91,12 @@ function SettingsOptions({
         <select
           className="select"
           name="defaultGame"
-          onChange={handleChange}
+          onChange={async (e: React.ChangeEvent<HTMLSelectElement>) => {
+            const keyStr = e.target.name;
+            const value = e.target.value;
+
+            await handleChange(keyStr, value.toString());
+          }}
           defaultValue={configData.defaultGame}
         >
           <option value={""}>Default (None)</option>

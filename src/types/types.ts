@@ -20,8 +20,9 @@ export type ConfigContextType = {
 };
 
 export type ConfigSettings = {
-  defaultGame: string;
-  ignoreRequiredFiles: string;
+  defaultGame: string; // Skip straight to input directory select
+  ignoreRequiredFiles: string; // Convert even when missing certain files
+  includeUnusedFiles: string; // Allow converting unused ROM files (ie. 70, 71). ignoreRequiredFiles must be true
 };
 
 export type ConvertContextType = {
@@ -49,6 +50,36 @@ export interface GameList {
   sfiii3: Game;
   jojoba: Game;
 }
+
+export const fullCombinedFiles = [
+  "10",
+  "20",
+  "30",
+  "31",
+  "40",
+  "41",
+  "50",
+  "51",
+  "60",
+  "61",
+  "70",
+  "71",
+];
+
+export const fullSplitFiles = [
+  ["simm1.0", "simm1.1", "simm1.2", "simm1.3"],
+  ["simm2.0", "simm2.1", "simm2.2", "simm2.3"],
+  ["simm3.0", "simm3.1", "simm3.2", "simm3.3"],
+  ["simm3.4", "simm3.5", "simm3.6", "simm3.7"],
+  ["simm4.0", "simm4.1", "simm4.2", "simm4.3"],
+  ["simm4.4", "simm4.5", "simm4.6", "simm4.7"],
+  ["simm5.0", "simm5.1", "simm5.2", "simm5.3"],
+  ["simm5.4", "simm5.5", "simm5.6", "simm5.7"],
+  ["simm6.0", "simm6.1", "simm6.2", "simm6.3"],
+  ["simm6.4", "simm6.5", "simm6.6", "simm6.7"],
+  ["simm7.0", "simm7.1", "simm7.2", "simm7.3"],
+  ["simm7.4", "simm7.5", "simm7.6", "simm7.7"],
+];
 
 export const GameData: GameList = {
   redearth: {

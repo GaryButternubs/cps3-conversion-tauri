@@ -11,6 +11,7 @@ import { path } from "@tauri-apps/api";
 export const defaults: ConfigSettings = {
   defaultGame: "",
   ignoreRequiredFiles: "false",
+  includeUnusedFiles: "false",
 };
 const configData: ConfigSettings = { ...defaults };
 
@@ -41,6 +42,12 @@ export async function LoadConfig(): Promise<ConfigSettings> {
     });
   }
 
+  // Make sure includeUnusedFiles isn't enabled if ignoreUnusedFiles isn't also
+  if (temp["includeUnusedFiles"] && !temp["ignoreRequiredFiles"]) {
+    await WriteData("includeUnusedFiles", "false");
+    temp["includeUnusedFiles"] = "false";
+  }
+
   return temp;
 }
 
@@ -51,6 +58,8 @@ export async function WriteData(keyStr: string, value: string) {
   configLocation = await path.join(await path.resourceDir(), "config.json");
   const configStr = ConfigToText(configData);
   await writeTextFile(configLocation, configStr);
+
+  return configData;
 }
 
 export async function DeleteConfig(): Promise<boolean> {
