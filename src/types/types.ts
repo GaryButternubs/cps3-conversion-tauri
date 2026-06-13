@@ -9,8 +9,13 @@ import thirdstrikeBG from "../assets/3s.jpg";
 import heritageBG from "../assets/heritage.jpg";
 
 export type ConfigContextType = {
-  defaultGame: string; // Skips need to pick game for split/combined
-  ignoreRequiredFiles: boolean; // Allow conversion even if some files missing
+  configData: ConfigSettings;
+  setConfig: Dispatch<SetStateAction<ConfigSettings>>;
+};
+
+export type ConfigSettings = {
+  defaultGame: string;
+  ignoreRequiredFiles: string;
 };
 
 export type ConvertContextType = {

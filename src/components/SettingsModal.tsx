@@ -1,10 +1,4 @@
-import { ChangeEvent } from "react";
-
 function SettingsModal({ strokeWidth }: { strokeWidth: number }) {
-  const UpdateConfiguration = (key: string, value: string) => {
-    // TO-DO: Make call to helper that makes Tauri write API call
-  };
-
   return (
     <>
       <div
