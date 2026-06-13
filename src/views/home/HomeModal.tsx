@@ -14,7 +14,7 @@ function HomeModal({
   return (
     <>
       <button
-        className="link link-info"
+        className="link link-info text-sm"
         onClick={() => {
           const modal: HTMLDialogElement | null = document.querySelector(
             `#${modalID}`,

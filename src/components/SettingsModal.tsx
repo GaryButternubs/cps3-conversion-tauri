@@ -1,6 +1,12 @@
+import { useState } from "react";
 import SettingsOptions from "./SettingsOptions";
+import { ConfigWriteStatus } from "../types/types";
 
 function SettingsModal({ strokeWidth }: { strokeWidth: number }) {
+  const [status, setStatus] = useState<ConfigWriteStatus>(
+    ConfigWriteStatus.Initial,
+  );
+
   return (
     <>
       <div
@@ -43,16 +49,30 @@ function SettingsModal({ strokeWidth }: { strokeWidth: number }) {
             this program is used. They'll be written to a configuration file
             stored in the same directory as this program.
           </p>
-          <SettingsOptions />
+          <SettingsOptions setStatus={setStatus} />
 
-          <div className="modal-action">
-            <form method="dialog">
-              <button className="btn">Close</button>
-            </form>
+          <div className="flex justify-between items-center">
+            <span className="text-success mt-6 text-sm">
+              {status === ConfigWriteStatus.Initial
+                ? " "
+                : status === ConfigWriteStatus.Pending
+                  ? "Saving changes..."
+                  : "Changes saved"}
+            </span>
+            <div className="modal-action">
+              <form method="dialog">
+                <button
+                  className="btn"
+                  disabled={status === ConfigWriteStatus.Pending}
+                >
+                  Close
+                </button>
+              </form>
+            </div>
           </div>
         </div>
         <form method="dialog" className="modal-backdrop">
-          <button>close</button>
+          <button disabled={status === ConfigWriteStatus.Pending}>close</button>
         </form>
       </dialog>
     </>

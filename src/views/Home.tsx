@@ -43,7 +43,7 @@ function Home() {
             <SplitModal />
           </div>
         </div>
-        <div className="flex justify-center items-center">
+        <div className="flex justify-center items-center mt-4">
           <HFTF3SModal />
         </div>
       </main>

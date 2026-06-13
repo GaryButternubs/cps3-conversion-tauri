@@ -8,6 +8,12 @@ import ventureBG from "../assets/venture.jpg";
 import thirdstrikeBG from "../assets/3s.jpg";
 import heritageBG from "../assets/heritage.jpg";
 
+export enum ConfigWriteStatus {
+  Initial,
+  Pending,
+  Saved,
+}
+
 export type ConfigContextType = {
   configData: ConfigSettings;
   setConfig: Dispatch<SetStateAction<ConfigSettings>>;
