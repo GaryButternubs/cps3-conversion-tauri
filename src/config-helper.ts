@@ -46,13 +46,10 @@ export async function LoadConfig(): Promise<ConfigSettings> {
 
 export async function WriteData(keyStr: string, value: string) {
   const key = keyStr as keyof ConfigSettings;
-  console.log(`key: ${key}, value: ${value}`);
   configData[key] = value;
-  console.log(configData);
 
   configLocation = await path.join(await path.resourceDir(), "config.json");
   const configStr = ConfigToText(configData);
-  console.log(configStr);
   await writeTextFile(configLocation, configStr);
 }
 

@@ -8,10 +8,10 @@ import { use } from "react";
 function Home() {
   const { configData } = use(ConfigContext)!;
 
-  const combinedUrl = configData
+  const combinedUrl = configData.defaultGame
     ? `/selectInput/combined/${configData.defaultGame}`
     : "/selectGame/combined";
-  const splitUrl = configData
+  const splitUrl = configData.defaultGame
     ? `/selectInput/split/${configData.defaultGame}`
     : "/selectGame/split";
 

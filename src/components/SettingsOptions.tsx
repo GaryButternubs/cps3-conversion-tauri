@@ -66,19 +66,16 @@ function SettingsOptions({
             Default game:{" "}
           </span>
         </div>
-        <select
-          defaultValue={
-            selectedGame
-              ? (selectedGame.abbrTitle ?? selectedGame.title)
-              : "Default (None)"
-          }
-          className="select"
-          name="defaultGame"
-          onChange={handleChange}
-        >
-          <option value={""}>Default (None)</option>
+        <select className="select" name="defaultGame" onChange={handleChange}>
+          <option value={""} selected={selectedGame === null}>
+            Default (None)
+          </option>
           {Object.values(GameData).map((game: Game, index) => (
-            <option value={Object.keys(GameData)[index]} key={game.bgImage}>
+            <option
+              value={Object.keys(GameData)[index]}
+              key={game.bgImage}
+              selected={selectedGame?.abbrTitle === game.abbrTitle}
+            >
               {game.abbrTitle ?? game.title}
             </option>
           ))}

@@ -7,6 +7,7 @@ import { useQuery } from "@tanstack/react-query";
 import "./App.css";
 
 function App() {
+  // Get contents of config.json
   const { data: initialConfig, isLoading } = useQuery({
     queryKey: ["initialConfig"],
     queryFn: () => LoadConfig(),
