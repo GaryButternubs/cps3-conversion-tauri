@@ -15,6 +15,7 @@ function SettingsOptions({
   setStatus: Dispatch<SetStateAction<ConfigWriteStatus>>;
 }) {
   const { configData, setConfig } = use(ConfigContext)!;
+
   const selectedGame =
     GameData[configData.defaultGame as keyof GameList] ?? null;
 

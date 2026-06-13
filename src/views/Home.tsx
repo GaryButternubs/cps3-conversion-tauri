@@ -2,8 +2,19 @@ import { NavLink } from "react-router";
 import CombinedModal from "./home/CombinedModal";
 import SplitModal from "./home/SplitModal";
 import HFTF3SModal from "./home/HFTF3SModal";
+import { ConfigContext } from "../contexts/ConfigContext";
+import { use } from "react";
 
 function Home() {
+  const { configData } = use(ConfigContext)!;
+
+  const combinedUrl = configData
+    ? `/selectInput/combined/${configData.defaultGame}`
+    : "/selectGame/combined";
+  const splitUrl = configData
+    ? `/selectInput/split/${configData.defaultGame}`
+    : "/selectGame/split";
+
   return (
     <>
       <header className="text-center mb-20">
@@ -20,10 +31,7 @@ function Home() {
                 ie. (10, 20, 30, etc.) to (xxx-simm1.0, xxx-simm1.1,
                 xxx-simm1.2, etc.)
               </div>
-              <NavLink
-                to="/selectGame/combined"
-                className="btn btn-neutral p-4"
-              >
+              <NavLink to={combinedUrl} className="btn btn-neutral p-4">
                 Convert Combined ROM to Split ROM
               </NavLink>
             </div>
@@ -36,7 +44,7 @@ function Home() {
                 ie. (xxx-simm1.0, xxx-simm1.1, xxx-simm1.2, etc.) to (10, 20,
                 30, etc.)
               </div>
-              <NavLink to="/selectGame/split" className="btn btn-neutral p-4">
+              <NavLink to={splitUrl} className="btn btn-neutral p-4">
                 Convert Split ROM to Combined ROM
               </NavLink>
             </div>

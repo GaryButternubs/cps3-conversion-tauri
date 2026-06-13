@@ -1,5 +1,4 @@
-import { useState } from "react";
-import { ConfigContextType, ConfigSettings } from "./types/types";
+import { ConfigSettings } from "./types/types";
 import {
   create,
   exists,
@@ -9,7 +8,7 @@ import {
 } from "@tauri-apps/plugin-fs";
 import { path } from "@tauri-apps/api";
 
-const defaults: ConfigSettings = {
+export const defaults: ConfigSettings = {
   defaultGame: "",
   ignoreRequiredFiles: "false",
 };
