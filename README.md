@@ -38,6 +38,15 @@ Doing so will require you to install Tauri as well as its dependencies. You can 
 
 5. The ROM should be successfully converted, and will end up in whatever directory you chose for the previous step. When I use this tool, it ends up in the "output" directory.
 
+## New Features
+
+As of [version 1.1.0](https://github.com/GaryButternubs/cps3-conversion-tauri/releases/tag/app-v1.1.0), a `config.json` has been added to the application directory to store unique user settings to adjust your workflow. At the moment, they're as follows:
+
+- **Default game**: Skip the need to select a game when combining/splitting ROMs and jump straight to the input directory selection
+- **Ignore required files**: Allow conversion even if you're missing some ROM files, with the missing ones not being converted
+
+These configurations can be changed via the new settings menu, available via the gear icon anywhere in the app.
+
 ## License
 
 [MIT](LICENSE)
