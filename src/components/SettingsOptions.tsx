@@ -1,0 +1,66 @@
+import { ChangeEvent, use } from "react";
+import { ConfigContext } from "../contexts/ConfigContext";
+import { ConfigSettings, Game, GameData } from "../types/types";
+import { WriteData } from "../config-helper";
+
+function SettingsOptions() {
+  const { configData, setConfig } = use(ConfigContext)!;
+
+  const handleChange = async (
+    e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>,
+  ) => {
+    // TO-DO: Apply changes based on inputs
+    const key = e.target.name as keyof ConfigSettings;
+    const value = (
+      e.target.type === "checkbox" ? e.target.checked : e.target.value
+    ).toString();
+
+    await WriteData(key, value.toString());
+
+    const temp = { ...configData };
+    temp[key] = value;
+    setConfig(temp);
+  };
+
+  return (
+    <div className="pt-4">
+      <fieldset className="fieldset flex gap-2 items-center justify-between">
+        <div
+          className="tooltip"
+          data-tip="Allow ROM conversion even if some files are missing."
+        >
+          <span className="label">Ignore required files: </span>
+        </div>
+        <input
+          type="checkbox"
+          className="checkbox"
+          name="ignoreRequiredFiles"
+          onChange={handleChange}
+        />
+      </fieldset>
+      <fieldset className="fieldset flex gap-2 items-center justify-between">
+        <div
+          className="tooltip"
+          data-tip="Automatically jump to directory selection after choosing split or combine conversion."
+        >
+          <span className="label">Default game: </span>
+        </div>
+        <select
+          defaultValue="Pick a default game"
+          className="select"
+          name="defaultGame"
+          onChange={handleChange}
+        >
+          <option value={""}>Pick a default game</option>
+          {Object.values(GameData).map((game: Game, index) => (
+            <option value={Object.keys(GameData)[index]} key={game.bgImage}>
+              {game.abbrTitle ?? game.title}
+            </option>
+          ))}
+        </select>
+      </fieldset>
+    </div>
+  );
+}
+
+export default SettingsOptions;

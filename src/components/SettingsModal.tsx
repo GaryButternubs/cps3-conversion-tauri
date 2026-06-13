@@ -1,3 +1,5 @@
+import SettingsOptions from "./SettingsOptions";
+
 function SettingsModal({ strokeWidth }: { strokeWidth: number }) {
   return (
     <>
@@ -41,6 +43,7 @@ function SettingsModal({ strokeWidth }: { strokeWidth: number }) {
             this program is used. They'll be written to a configuration file
             stored in the same directory as this program.
           </p>
+          <SettingsOptions />
 
           <div className="modal-action">
             <form method="dialog">

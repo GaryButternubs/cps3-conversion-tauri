@@ -47,10 +47,14 @@ export async function LoadConfig(): Promise<ConfigSettings> {
 
 export async function WriteData(keyStr: string, value: string) {
   const key = keyStr as keyof ConfigSettings;
+  console.log(`key: ${key}, value: ${value}`);
   configData[key] = value;
+  console.log(configData);
 
+  configLocation = await path.join(await path.resourceDir(), "config.json");
   const configStr = ConfigToText(configData);
-  await writeTextFile("/config.json", configStr);
+  console.log(configStr);
+  await writeTextFile(configLocation, configStr);
 }
 
 export async function DeleteConfig(): Promise<boolean> {
@@ -67,7 +71,7 @@ function ConfigToText(data: ConfigSettings) {
   return Object.keys(data)
     .map((key) => {
       const keyTyped = key as keyof ConfigSettings;
-      return `${key}=${defaults[keyTyped]}`;
+      return `${key}=${configData[keyTyped]}`;
     })
     .join("\n");
 }
