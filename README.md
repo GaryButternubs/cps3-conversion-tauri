@@ -44,6 +44,7 @@ As of [version 1.1.0](https://github.com/GaryButternubs/cps3-conversion-tauri/re
 
 - **Default game**: Skip the need to select a game when combining/splitting ROMs and jump straight to the input directory selection
 - **Ignore required files**: Allow conversion even if you're missing some ROM files, with the missing ones not being converted
+- **Include unused files**: Convert all files supported by the CPS3, even if the game didn't use them. **Ignore required files** must be enabled first.
 
 These configurations can be changed via the new settings menu, available via the gear icon anywhere in the app.
 
