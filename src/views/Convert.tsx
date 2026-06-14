@@ -4,6 +4,7 @@ import { ConvertContext } from "../contexts/ConvertContext";
 import convertROM from "../convert-helper";
 import { GameData, GameList } from "../types/types";
 import Heading from "../components/Heading";
+import { ConfigContext } from "../contexts/ConfigContext";
 
 function Convert() {
   const { type, game } = useParams();
@@ -11,6 +12,7 @@ function Convert() {
   const [progress, setProgress] = useState<number>(0);
   const [text, setText] = useState<string>("");
 
+  const { configData } = use(ConfigContext)!;
   const { files, inputDir, outputDir } = use(ConvertContext)!;
 
   const ConvertROM = async (e: MouseEvent) => {
@@ -24,6 +26,7 @@ function Convert() {
         files,
         inputDir,
         outputDir,
+        configData.includeUnusedFiles.toLowerCase() === "true",
         setProgress,
         setText,
       );

@@ -1,5 +1,7 @@
-import { memo } from "react";
-import { Game } from "../../types/types";
+import { memo, use } from "react";
+import { fullCombinedFiles, fullSplitFiles, Game } from "../../types/types";
+import { ConfigContext } from "../../contexts/ConfigContext";
+import { useParams } from "react-router";
 
 const RequiredFiles = memo(function RequiredFiles({
   type,
@@ -12,11 +14,25 @@ const RequiredFiles = memo(function RequiredFiles({
   contentLen?: number;
   missingFiles?: Array<string>;
 }) {
+  const gameStr = useParams().game;
+
+  const { includeUnusedFiles } = use(ConfigContext)!.configData;
+  const combinedFiles =
+    includeUnusedFiles.toLowerCase() === "true"
+      ? fullCombinedFiles
+      : game.combinedFiles;
+  const splitFiles =
+    includeUnusedFiles.toLowerCase() === "true"
+      ? fullSplitFiles.map((simmSet) =>
+          simmSet.map((simm) => `${gameStr}-${simm}`),
+        )
+      : game.splitFiles;
+
   return (
     <div className="my-5">
       {type === "combined" ? (
         <div className="flex flex-wrap justify-center gap-2">
-          {game.combinedFiles.map((file) => (
+          {combinedFiles.map((file) => (
             <div
               className={`card card-border ${contentLen > 0 ? `${missingFiles.includes(file) ? "bg-error text-error-content" : "bg-success text-success-content"}` : "bg-base-100"}`}
               key={file}
@@ -29,10 +45,10 @@ const RequiredFiles = memo(function RequiredFiles({
         </div>
       ) : (
         <div className="flex-col justify-center items-center space-y-2">
-          {game.splitFiles.map((splitArr, index) => (
+          {splitFiles.map((splitArr, index) => (
             <div
               className="flex justify-center items-center gap-2"
-              key={game.combinedFiles[index]}
+              key={combinedFiles[index]}
             >
               {splitArr.map((file) => (
                 <div

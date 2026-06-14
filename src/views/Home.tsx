@@ -6,13 +6,13 @@ import { ConfigContext } from "../contexts/ConfigContext";
 import { use } from "react";
 
 function Home() {
-  const { configData } = use(ConfigContext)!;
+  const { defaultGame } = use(ConfigContext)!.configData;
 
-  const combinedUrl = configData.defaultGame
-    ? `/selectInput/combined/${configData.defaultGame}`
+  const combinedUrl = defaultGame
+    ? `/selectInput/combined/${defaultGame}`
     : "/selectGame/combined";
-  const splitUrl = configData.defaultGame
-    ? `/selectInput/split/${configData.defaultGame}`
+  const splitUrl = defaultGame
+    ? `/selectInput/split/${defaultGame}`
     : "/selectGame/split";
 
   return (

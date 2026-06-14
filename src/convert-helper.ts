@@ -1,6 +1,11 @@
 import { DirEntry, readFile, writeFile } from "@tauri-apps/plugin-fs";
 import { Dispatch, SetStateAction } from "react";
-import { GameData, GameList } from "./types/types";
+import {
+  fullCombinedFiles,
+  fullSplitFiles,
+  GameData,
+  GameList,
+} from "./types/types";
 
 async function convertROM(
   type: string,
@@ -8,12 +13,19 @@ async function convertROM(
   files: Array<DirEntry>,
   inputDir: string,
   outputDir: string,
+  includeUnusedFiles: boolean,
   setProgress: Dispatch<SetStateAction<number>>,
   setText: Dispatch<SetStateAction<string>>,
 ) {
   if (type && game) {
-    const combFiles = GameData[game].combinedFiles;
-    const splitFiles = GameData[game].splitFiles;
+    const combFiles = includeUnusedFiles
+      ? fullCombinedFiles
+      : GameData[game].combinedFiles;
+    const splitFiles = includeUnusedFiles
+      ? fullSplitFiles.map((simmSet) =>
+          simmSet.map((simm) => `${game}-${simm}`),
+        )
+      : GameData[game].splitFiles;
 
     const progressIncrements = 100 / combFiles.length;
 

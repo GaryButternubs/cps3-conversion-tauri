@@ -2,7 +2,12 @@ import { DirEntry } from "@tauri-apps/plugin-fs";
 import { MouseEvent, use, useMemo, useState } from "react";
 import { NavLink, useNavigate, useParams } from "react-router";
 import { ConvertContext } from "../contexts/ConvertContext";
-import { GameData, GameList } from "../types/types";
+import {
+  fullCombinedFiles,
+  fullSplitFiles,
+  GameData,
+  GameList,
+} from "../types/types";
 import Heading from "../components/Heading";
 import RequiredFiles from "./selectInputOutput/RequiredFiles";
 import DirectorySelect from "../components/DirectorySelect";
@@ -13,11 +18,22 @@ function SelectInput() {
   const [contents, setContents] = useState<Array<DirEntry>>([]);
   const [tempInDir, setTempInDir] = useState<string>("");
 
-  const ignoreRequiredFiles =
-    use(ConfigContext)!.configData.ignoreRequiredFiles;
+  const { ignoreRequiredFiles, includeUnusedFiles } =
+    use(ConfigContext)!.configData;
   const { setFiles, setInputDir } = use(ConvertContext)!;
 
   const navigate = useNavigate();
+
+  const combFiles =
+    includeUnusedFiles.toLowerCase() === "true"
+      ? fullCombinedFiles
+      : GameData[game as keyof GameList].combinedFiles;
+  const splitFiles =
+    includeUnusedFiles.toLowerCase() === "true"
+      ? fullSplitFiles.map((simmSet) =>
+          simmSet.map((simm) => `${game}-${simm}`),
+        )
+      : GameData[game as keyof GameList].splitFiles;
 
   const missingFiles: string[] = useMemo(() => {
     if (contents.length === 0) return [];
@@ -27,13 +43,9 @@ function SelectInput() {
     const filenames: Array<string> = contents.map((file) => file.name);
 
     if (type === "combined") {
-      const combFiles = GameData[game as keyof GameList].combinedFiles;
-
       for (let i = 0; i < combFiles.length; i++)
         if (!filenames.includes(combFiles[i])) missing.push(combFiles[i]);
     } else if (type === "split") {
-      const splitFiles = GameData[game as keyof GameList].splitFiles;
-
       for (let i = 0; i < splitFiles.length; i++) {
         for (let j = 0; j < splitFiles[i].length; j++) {
           if (!filenames.includes(splitFiles[i][j]))
@@ -49,9 +61,6 @@ function SelectInput() {
     e.preventDefault();
 
     if (setFiles && setInputDir) {
-      const combFiles = GameData[game as keyof GameList].combinedFiles;
-      const splitFiles = GameData[game as keyof GameList].splitFiles;
-
       setFiles(
         contents.filter((file) => {
           if (type === "combined") {
@@ -103,7 +112,8 @@ function SelectInput() {
             className="btn"
             disabled={
               contents.length === 0 ||
-              (missingFiles.length !== 0 && !ignoreRequiredFiles)
+              (missingFiles.length !== 0 &&
+                !(ignoreRequiredFiles.toLowerCase() === "true"))
             }
             onClick={SelectOutputDir}
           >
@@ -114,18 +124,17 @@ function SelectInput() {
           </NavLink>
         </div>
         {contents.length > 0 && missingFiles.length !== 0 && (
-          <div className="flex justify-center items-center mt-2">
+          <div className="flex flex-col justify-center items-center mt-2 text-center">
             <p className="text-error">
-              {ignoreRequiredFiles
-                ? `One or more files are missing. Proceed anyway? 
-                    ${
-                      (type ?? "combined") === "split"
-                        ? "If any simms are missing they won't be combined."
-                        : ""
-                    }
-                  `
+              {ignoreRequiredFiles.toLowerCase() === "true"
+                ? `One or more files are missing. Proceed anyway?`
                 : "All required files must be found before continuing."}
             </p>
+            {(type ?? "combined") === "split" && (
+              <p className="text-error">
+                If any simms are missing from a set, they will not be combined.
+              </p>
+            )}
           </div>
         )}
       </main>
